@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Empleo - Servicios de Limpieza</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .header-icon {
+            width: 64px; height: 64px;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        h1 { font-size: 2rem; color: #1f2937; margin-bottom: 0.5rem; }
+        .subtitle { color: #6b7280; }
+        .section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .section:last-of-type { border-bottom: none; }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        input[type="text"], input[type="email"], input[type="tel"],
+        input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+        input[type="checkbox"], input[type="radio"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+        .radio-group { display: flex; gap: 1rem; }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+            transition: background 0.2s;
+        }
+        .submit-btn:hover { background: #1d4ed8; }
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+        .error-message {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .form-grid-2, .form-grid-3, .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <h1>Solicitud de Empleo</h1>
+            <p class="subtitle">Servicios de Limpieza Profesional</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ¡Solicitud enviada correctamente! Nos pondremos en contacto pronto.
+        </div>
+        <div class="error-message" id="errorMessage">
+            Hubo un error al enviar el formulario. Por favor intenta nuevamente.
+        </div>
+
+        <form id="formularioEmpleo">
+            <div class="section">
+                <h2 class="section-title">Información Personal</h2>
+                <div class="form-group">
+                    <label>Nombre Completo *</label>
+                    <input type="text" name="nombreCompleto" required>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" name="telefono" required>
+                    </div>
+                </div>
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label>Carnet de Identidad *</label>
+                        <input type="text" name="carnetIdentidad" placeholder="Ej: 12345678" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Expedido *</label>
+                        <select name="expedido" required>
+                            <option value="">Seleccione</option>
+                            <option value="SC">SC - Santa Cruz</option>
+                            <option value="BN">BN - Beni</option>
+                            <option value="PD">PD - Pando</option>
+                            <option value="CH">CH - Chuquisaca</option>
+                            <option value="CB">CB - Cochabamba</option>
+                            <option value="LP">LP - La Paz</option>
+                            <option value="OR">OR - Oruro</option>
+                            <option value="PO">PO - Potosí</option>
+                            <option value="TA">TA - Tarija</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Edad *</label>
+                        <input type="number" name="edad" min="18" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Zona de Residencia *</label>
+                    <input type="text" name="zonaResidencia" required>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Experiencia y Habilidades</h2>
+                <div class="form-group">
+                    <label>Años de experiencia en limpieza *</label>
+                    <input type="number" name="experienciaAnios" min="0" step="0.5" required>
+                </div>
+                <div class="form-group">
+                    <label>¿En qué tipo de espacios tiene experiencia? *</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Residencial"> Residencial</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Comercial"> Comercial</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Oficinas"> Oficinas</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Industrial"> Industrial</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Hospitales"> Hospitales</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Hoteles"> Hoteles</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Restaurantes"> Restaurantes</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Escuelas/Colegios"> Escuelas/Colegios</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Centros Comerciales"> Centros Comerciales</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Edificios Corporativos"> Edificios Corporativos</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Clínicas"> Clínicas</label>
+                        <label class="checkbox-label"><input type="checkbox" name="tipoEspacios" value="Gimnasios"> Gimnasios</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>¿Maneja equipos de limpieza profesional? *</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="manejaEquipos" value="si" required> Sí</label>
+                        <label class="radio-label"><input type="radio" name="manejaEquipos" value="no"> No</label>
+                        <label class="radio-label"><input type="radio" name="manejaEquipos" value="algunos"> Algunos</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>¿Conoce productos de limpieza especializados? *</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="conoceProductos" value="si" required> Sí</label>
+                        <label class="radio-label"><input type="radio" name="conoceProductos" value="no"> No</label>
+                        <label class="radio-label"><input type="radio" name="conoceProductos" value="basico"> Básico</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>¿Ha recibido capacitación en limpieza profesional? *</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="capacitacion" value="si" required> Sí</label>
+                        <label class="radio-label"><input type="radio" name="capacitacion" value="no"> No</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>¿Tiene referencias laborales? *</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="tieneReferencias" value="si" required> Sí</label>
+                        <label class="radio-label"><input type="radio" name="tieneReferencias" value="no"> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Disponibilidad</h2>
+                <div class="form-group">
+                    <label>Disponibilidad horaria *</label>
+                    <select name="disponibilidad" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="tiempo-completo">Tiempo completo</option>
+                        <option value="medio-tiempo">Medio tiempo</option>
+                        <option value="fines-semana">Solo fines de semana</option>
+                        <option value="por-horas">Por horas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>¿Cuándo podría comenzar a trabajar? *</label>
+                    <select name="inicioTrabajo" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="inmediato">Inmediatamente</option>
+                        <option value="1-semana">En 1 semana</option>
+                        <option value="2-semanas">En 2 semanas</option>
+                        <option value="1-mes">En 1 mes</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Enviar Solicitud</button>
+        </form>
+    </div>
+
+    <script>
+    document.getElementById('formularioEmpleo').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        const successMsg = document.getElementById('successMessage');
+        const errorMsg = document.getElementById('errorMessage');
+        
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        
+        const formData = new FormData(e.target);
+        
+        const tipoEspacios = formData.getAll('tipoEspacios').join(', ');
+        
+        const data = {
+            nombreCompleto: formData.get('nombreCompleto'),
+            email: formData.get('email'),
+            telefono: formData.get('telefono'),
+            carnetIdentidad: formData.get('carnetIdentidad'),
+            expedido: formData.get('expedido'),
+            edad: formData.get('edad'),
+            zonaResidencia: formData.get('zonaResidencia'),
+            experienciaAnios: formData.get('experienciaAnios'),
+            tipoEspacios: tipoEspacios,
+            manejaEquipos: formData.get('manejaEquipos'),
+            conoceProductos: formData.get('conoceProductos'),
+            capacitacion: formData.get('capacitacion'),
+            tieneReferencias: formData.get('tieneReferencias'),
+            disponibilidad: formData.get('disponibilidad'),
+            inicioTrabajo: formData.get('inicioTrabajo')
+        };
+        
+        console.log('Enviando datos:', data);
+        
+        try {
+            const response = await fetch('https://josesolo.app.n8n.cloud/webhook/procesar-solicitud', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            console.log('Respuesta:', response.status, response.statusText);
+            
+            if (response.ok) {
+                successMsg.style.display = 'block';
+                e.target.reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = `Error ${response.status}: No se pudo procesar la solicitud.`;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            errorMsg.style.display = 'block';
+            errorMsg.textContent = 'Error de conexión. Por favor verifica tu internet e intenta nuevamente.';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+    </script>
+
+</body>
+</html>
